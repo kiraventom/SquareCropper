@@ -23,6 +23,7 @@ namespace SquareCropper
             Frame.MouseDown += Frame_MouseDown;
             Frame.MouseUp += Frame_MouseUp;
             Frame.MouseMove += Frame_MouseMove;
+            Frame.MouseWheel += this.Frame_MouseWheel;
             MainForm.Controls.Add(Frame);
             Frame.BringToFront();
             PathToImage = null;
@@ -31,6 +32,7 @@ namespace SquareCropper
         private TransparentButton Frame { get; }
         private Form MainForm { get; }
         private readonly Size DefaultSize = new Size(600, 600);
+        private Size MaxFrameSize = new Size(1, 1);
 
         private string _pathToImage;
         public string PathToImage
@@ -42,11 +44,7 @@ namespace SquareCropper
             set
             {
                 _pathToImage = value;
-                var mainPB = MainForm.Controls.OfType<PictureBox>().FirstOrDefault();
-                if (mainPB is null)
-                {
-                    throw new Exception("No PictureBox on the form");
-                }
+                var mainPB = MainForm.Controls.OfType<PictureBox>().First();
                 if (_pathToImage != null)
                 {
                     Bitmap orig = new Bitmap(_pathToImage);
@@ -59,28 +57,48 @@ namespace SquareCropper
                     }
                     mainPB.Image = thumb;
                     MainForm.Size = mainPB.Image.Size;
-                    var dragNDropTip = MainForm.Controls.OfType<Label>().FirstOrDefault();
-                    if (dragNDropTip != null)
-                    {
-                        dragNDropTip.Visible = false;
-                    }
+                    var dragNDropTip = MainForm.Controls.OfType<Label>().First();
+                    dragNDropTip.Visible = false;
                     Frame.Visible = true;
                     if (thumb.Width <= thumb.Height)
                     {
-                        Frame.Size = new Size(thumb.Width, thumb.Width);
+                        MaxFrameSize = new Size(thumb.Width, thumb.Width);
                     }
                     else
                     {
-                        Frame.Size = new Size(thumb.Height, thumb.Height);
+                        MaxFrameSize = new Size(thumb.Height, thumb.Height);
                     }
+                    Frame.Size = MaxFrameSize;
                     Frame.ImageBehind = thumb;
                 }
             }
         }
 
-        #region Frame Movement
+        public void Save()
+        {
+            if (Frame.ImageBehind != null)
+            {
+                var sfd = new SaveFileDialog
+                {
+                    Filter = "PNG изображение|*.png"
+                };
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    Bitmap output = new Bitmap(Frame.Width, Frame.Height);
+                    using (Graphics g = Graphics.FromImage(output))
+                    {
+                        g.DrawImage(Frame.ImageBehind, new Rectangle(new Point(0, 0), Frame.Size), new Rectangle(Frame.Location, Frame.Size), GraphicsUnit.Pixel);
+                    }
+                    output.Save(sfd.FileName);
+                    output.Dispose();
+                }
+            }
+        }
+
+        #region Frame Movement and Resizing
         private bool mouseDown;
         private Point lastLocation;
+        private double sizeMod = 1.0;
 
         private void Frame_MouseDown(object sender, MouseEventArgs e)
         {
@@ -118,6 +136,31 @@ namespace SquareCropper
         private void Frame_MouseUp(object sender, MouseEventArgs e)
         {
             mouseDown = false;
+        }
+
+        private void Frame_MouseWheel(object sender, MouseEventArgs e)
+        {
+            if (mouseDown)
+            {
+                if (e.Delta > 0 && sizeMod < 1.0)
+                {
+                    sizeMod += 0.05;
+                    if (sizeMod > 1.0)
+                    {
+                        sizeMod = 1.0;
+                    }
+                }
+                else if (e.Delta < 0 && sizeMod > 0.5)
+                {
+                    sizeMod -= 0.05;
+                    if (sizeMod < 0.5)
+                    {
+                        sizeMod = 0.5;
+                    }
+                }
+                Frame.Point = Frame.Location;
+                Frame.Size = new Size((int)(MaxFrameSize.Width * sizeMod), (int)(MaxFrameSize.Height * sizeMod));
+            }
         }
         #endregion
     }

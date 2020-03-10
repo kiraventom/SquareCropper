@@ -61,7 +61,7 @@ namespace SquareCropper
             {
                 pe.Graphics.DrawImage(ImageBehind, new Rectangle(new Point(0, 0), this.Size), new Rectangle(this.Location, this.Size), GraphicsUnit.Pixel);
             }
-            pe.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(128, 0, 0, 0)), 0, 0, this.Width, this.Height);
+            pe.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(64, 255, 255, 255)), 0, 0, this.Width, this.Height);
         }
     }
 }

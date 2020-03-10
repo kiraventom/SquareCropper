@@ -44,6 +44,7 @@
             this.MainPB.TabStop = false;
             this.MainPB.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainPB_DragDrop);
             this.MainPB.DragEnter += new System.Windows.Forms.DragEventHandler(this.MainPB_DragEnter);
+            this.MainPB.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MainPB_MouseClick);
             this.MainPB.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MainPB_MouseDown);
             this.MainPB.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainPB_MouseMove);
             this.MainPB.MouseUp += new System.Windows.Forms.MouseEventHandler(this.MainPB_MouseUp);

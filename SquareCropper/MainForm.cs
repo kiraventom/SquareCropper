@@ -15,11 +15,16 @@ namespace SquareCropper
         public MainForm()
         {
             InitializeComponent();
+            dropDown = new ToolStripDropDown();
+            dropDown.Items.Add("Сохранить");
+            dropDown.Items.Add("Выйти");
+            dropDown.ItemClicked += this.DropDown_ItemClicked;
             MainPB.AllowDrop = true;
             Model = new SCModel(this);
         }
 
         private SCModel Model { get; }
+        private ToolStripDropDown dropDown;
 
         private void MainPB_DragEnter(object sender, DragEventArgs e)
         {
@@ -85,5 +90,26 @@ namespace SquareCropper
             lastLocation = e.Location;
         }
         #endregion
+
+        private void MainPB_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                dropDown.Show(MainPB, e.Location);
+            }
+        }
+
+        private void DropDown_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            if (e.ClickedItem.Text.Equals("Сохранить"))
+            {
+                dropDown.Hide();
+                Model.Save();
+            }
+            if (e.ClickedItem.Text.Equals("Выйти"))
+            {
+                this.Close();
+            }
+        }
     }
 }
