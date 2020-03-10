@@ -43,6 +43,9 @@
             this.MainPB.TabStop = false;
             this.MainPB.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainPB_DragDrop);
             this.MainPB.DragEnter += new System.Windows.Forms.DragEventHandler(this.MainPB_DragEnter);
+            this.MainPB.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MainPB_MouseDown);
+            this.MainPB.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainPB_MouseMove);
+            this.MainPB.MouseUp += new System.Windows.Forms.MouseEventHandler(this.MainPB_MouseUp);
             // 
             // MainForm
             // 
@@ -50,7 +53,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(682, 657);
             this.Controls.Add(this.MainPB);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SquareCropper";

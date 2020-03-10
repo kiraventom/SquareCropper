@@ -16,33 +16,10 @@ namespace SquareCropper
         {
             InitializeComponent();
             MainPB.AllowDrop = true;
-            PathToImage = null;
+            Model = new SCModel(this);
         }
 
-        private string _pathToImage;
-        private string PathToImage 
-        {
-            get
-            {
-                return _pathToImage;
-            }
-            set
-            {
-                _pathToImage = value;
-                if (_pathToImage != null)
-                {
-                    Bitmap orig = new Bitmap(_pathToImage);
-                    Size newSize = AdjustImageSizeToSquareControl(orig.Size, MainPB.Size);
-                    Bitmap thumb = new Bitmap(orig, newSize);
-                    orig.Dispose();
-                    if (MainPB.Image != null)
-                    {
-                        MainPB.Image.Dispose();
-                    }
-                    MainPB.Image = thumb;
-                }
-            }
-        }
+        private SCModel Model { get; }
 
         private void MainPB_DragEnter(object sender, DragEventArgs e)
         {
@@ -78,35 +55,36 @@ namespace SquareCropper
                         image.Dispose();
                     }
 
-                    PathToImage = pathToImage;
+                    Model.PathToImage = pathToImage;
+                    this.Size = MainPB.Image.Size;
                 }
             }
         }
 
-        public static Size AdjustImageSizeToSquareControl(Size imageSize, Size controlSize)
-        {
-            double ratio = imageSize.Width / (double)imageSize.Height;
+        #region Window Movement
+        private bool mouseDown;
+        private Point lastLocation;
 
-            //if pic is horizontal
-            if (ratio > 1)
+        private void MainPB_MouseUp(object sender, MouseEventArgs e)
+        {
+            mouseDown = false;
+        }
+
+        private void MainPB_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (mouseDown)
             {
-                int newWidth = controlSize.Width;
-                int newHeight = (int)(imageSize.Height * (newWidth / (double)imageSize.Width));
-                return new Size(newWidth, newHeight);
-            }
-            else
-            //if pic is vertical
-            if (ratio < 1)
-            {
-                int newHeight = controlSize.Height;
-                int newWidth = (int)(imageSize.Width * (newHeight / (double)imageSize.Height));
-                return new Size(newWidth, newHeight);
-            }
-            else
-            //if pic is square
-            {
-                return controlSize;
+                this.Location = new Point(
+                    (this.Location.X - lastLocation.X) + e.X, (this.Location.Y - lastLocation.Y) + e.Y);
+                Update();
             }
         }
+
+        private void MainPB_MouseDown(object sender, MouseEventArgs e)
+        {
+            mouseDown = true;
+            lastLocation = e.Location;
+        }
+        #endregion
     }
 }
