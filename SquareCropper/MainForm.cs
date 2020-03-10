@@ -35,6 +35,10 @@ namespace SquareCropper
                     Size newSize = AdjustImageSizeToSquareControl(orig.Size, MainPB.Size);
                     Bitmap thumb = new Bitmap(orig, newSize);
                     orig.Dispose();
+                    if (MainPB.Image != null)
+                    {
+                        MainPB.Image.Dispose();
+                    }
                     MainPB.Image = thumb;
                 }
             }
