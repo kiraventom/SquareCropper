@@ -52,11 +52,11 @@
             // DragNDropTipL
             // 
             this.DragNDropTipL.AutoSize = true;
-            this.DragNDropTipL.Location = new System.Drawing.Point(225, 340);
+            this.DragNDropTipL.Location = new System.Drawing.Point(95, 336);
             this.DragNDropTipL.Name = "DragNDropTipL";
-            this.DragNDropTipL.Size = new System.Drawing.Size(232, 17);
+            this.DragNDropTipL.Size = new System.Drawing.Size(504, 17);
             this.DragNDropTipL.TabIndex = 1;
-            this.DragNDropTipL.Text = "Перетащите сюда изображение...";
+            this.DragNDropTipL.Text = "Для вызова помощи кликните правой кнопкой и выберите пункт \"Помощь\"";
             // 
             // MainForm
             // 

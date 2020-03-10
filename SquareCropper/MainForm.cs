@@ -17,6 +17,7 @@ namespace SquareCropper
             InitializeComponent();
             dropDown = new ToolStripDropDown();
             dropDown.Items.Add("Сохранить");
+            dropDown.Items.Add("Помощь");
             dropDown.Items.Add("Выйти");
             dropDown.ItemClicked += this.DropDown_ItemClicked;
             MainPB.AllowDrop = true;
@@ -105,6 +106,19 @@ namespace SquareCropper
             {
                 dropDown.Hide();
                 Model.Save();
+            }
+            if (e.ClickedItem.Text.Equals("Помощь"))
+            {
+                dropDown.Hide();
+                MessageBox.Show(
+                    "Чтобы добавить изображение, перетащите его на место, не занятое рамкой.\n\n" +
+                    "Для перемещения рамки перетаскивайте её левой кнопкой мыши.\n\n" +
+                    "Для изменения размера рамки используйте колесо мыши, зажав левую кнопку мыши на рамке.\n\n" +
+                    "Для сохранения результата нажмите правой кнопкой в месте, не занятом рамкой, и выберите пункт \"Сохранить\".\n\n" +
+                    "Для выхода из программы нажмите правой кнопкой в месте, не занятом рамкой, и выберите пункт \"Выйти\".",
+                    "Помощь",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
             }
             if (e.ClickedItem.Text.Equals("Выйти"))
             {
