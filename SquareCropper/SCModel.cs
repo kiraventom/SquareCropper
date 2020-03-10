@@ -17,7 +17,8 @@ namespace SquareCropper
             Frame = new TransparentButton()
             {
                 Size = new Size(300, 300),
-                Point = new Point(0, 0)
+                Location = new Point(0, 0),
+                Visible = false
             };
             Frame.MouseDown += Frame_MouseDown;
             Frame.MouseUp += Frame_MouseUp;
@@ -57,7 +58,21 @@ namespace SquareCropper
                         mainPB.Image.Dispose();
                     }
                     mainPB.Image = thumb;
-
+                    MainForm.Size = mainPB.Image.Size;
+                    var dragNDropTip = MainForm.Controls.OfType<Label>().FirstOrDefault();
+                    if (dragNDropTip != null)
+                    {
+                        dragNDropTip.Visible = false;
+                    }
+                    Frame.Visible = true;
+                    if (thumb.Width <= thumb.Height)
+                    {
+                        Frame.Size = new Size(thumb.Width, thumb.Width);
+                    }
+                    else
+                    {
+                        Frame.Size = new Size(thumb.Height, thumb.Height);
+                    }
                     Frame.ImageBehind = thumb;
                 }
             }
@@ -77,8 +92,25 @@ namespace SquareCropper
         {
             if (mouseDown)
             {
-                Frame.Location = new Point(
+                Point newLocation = new Point(
                     (Frame.Location.X - lastLocation.X) + e.X, (Frame.Location.Y - lastLocation.Y) + e.Y);
+                if (newLocation.X <= 0)
+                {
+                    newLocation.X = 0;
+                }
+                if (newLocation.Y <= 0)
+                {
+                    newLocation.Y = 0;
+                }
+                if (newLocation.X >= MainForm.Width - Frame.Width)
+                {
+                    newLocation.X = MainForm.Width - Frame.Width;
+                }
+                if (newLocation.Y >= MainForm.Height - Frame.Height)
+                {
+                    newLocation.Y = MainForm.Height - Frame.Height;
+                }
+                Frame.Location = newLocation;
                 Frame.Point = Frame.Location;
             }
         }

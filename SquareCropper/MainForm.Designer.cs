@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.MainPB = new System.Windows.Forms.PictureBox();
+            this.DragNDropTipL = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.MainPB)).BeginInit();
             this.SuspendLayout();
             // 
@@ -47,11 +48,21 @@
             this.MainPB.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainPB_MouseMove);
             this.MainPB.MouseUp += new System.Windows.Forms.MouseEventHandler(this.MainPB_MouseUp);
             // 
+            // DragNDropTipL
+            // 
+            this.DragNDropTipL.AutoSize = true;
+            this.DragNDropTipL.Location = new System.Drawing.Point(225, 340);
+            this.DragNDropTipL.Name = "DragNDropTipL";
+            this.DragNDropTipL.Size = new System.Drawing.Size(232, 17);
+            this.DragNDropTipL.TabIndex = 1;
+            this.DragNDropTipL.Text = "Перетащите сюда изображение...";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(682, 657);
+            this.Controls.Add(this.DragNDropTipL);
             this.Controls.Add(this.MainPB);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "MainForm";
@@ -59,12 +70,14 @@
             this.Text = "SquareCropper";
             ((System.ComponentModel.ISupportInitialize)(this.MainPB)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.PictureBox MainPB;
+        private System.Windows.Forms.Label DragNDropTipL;
     }
 }
 

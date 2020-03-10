@@ -56,7 +56,6 @@ namespace SquareCropper
                     }
 
                     Model.PathToImage = pathToImage;
-                    this.Size = MainPB.Image.Size;
                 }
             }
         }

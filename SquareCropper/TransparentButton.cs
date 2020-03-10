@@ -40,16 +40,16 @@ namespace SquareCropper
             }
         }
 
-        private Point _location;
+        private Point _point;
         public Point Point
         {
             get
             {
-                return _location;
+                return _point;
             }
             set
             {
-                _location = value;
+                _point = value;
                 this.Refresh();
             }
         }
@@ -59,7 +59,7 @@ namespace SquareCropper
             base.OnPaint(pe);
             if (ImageBehind != null)
             {
-                pe.Graphics.DrawImage(ImageBehind, new Rectangle(new Point(0, 0), this.Size), new Rectangle(this.Point, this.Size), GraphicsUnit.Pixel);
+                pe.Graphics.DrawImage(ImageBehind, new Rectangle(new Point(0, 0), this.Size), new Rectangle(this.Location, this.Size), GraphicsUnit.Pixel);
             }
             pe.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(128, 0, 0, 0)), 0, 0, this.Width, this.Height);
         }
