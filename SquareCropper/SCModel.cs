@@ -84,11 +84,19 @@ namespace SquareCropper
                 };
                 if (sfd.ShowDialog() == DialogResult.OK)
                 {
-                    Bitmap output = new Bitmap(Frame.Width, Frame.Height);
+                    Bitmap original = new Bitmap(PathToImage);
+                    double mod = (double)original.Width / Frame.ImageBehind.Width;
+                    Rectangle rect = new Rectangle(
+                        (int)(Frame.Location.X * mod),
+                        (int)(Frame.Location.Y * mod),
+                        (int)(Frame.Width * mod),
+                        (int)(Frame.Height * mod));
+                    Bitmap output = new Bitmap(rect.Width, rect.Height);
                     using (Graphics g = Graphics.FromImage(output))
                     {
-                        g.DrawImage(Frame.ImageBehind, new Rectangle(new Point(0, 0), Frame.Size), new Rectangle(Frame.Location, Frame.Size), GraphicsUnit.Pixel);
+                        g.DrawImage(original, new Rectangle(new Point(0, 0), output.Size), rect, GraphicsUnit.Pixel);
                     }
+                    original.Dispose();
                     output.Save(sfd.FileName);
                     output.Dispose();
                 }
